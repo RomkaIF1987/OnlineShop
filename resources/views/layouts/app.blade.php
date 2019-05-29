@@ -36,61 +36,45 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    </li>
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span
-                                    class="badge">3</span></a>
+                        <a class="nav-link" href="#" id="cart"> Cart <span
+                                    class="badge">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span></a>
                     </li>
                 @endauth
             </ul>
         </div>
     </div>
 </nav>
-
-<div class="container">
-    <div class="shopping-cart">
-        <div class="shopping-cart-header">
-            <div class="shopping-cart-total">
-                <span class="lighter-text">Total:</span>
-                <span class="main-color-text">$2,229.97</span>
-            </div>
-        </div> <!--end shopping-cart-header -->
-
-        <ul class="shopping-cart-items">
-            <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item1.jpg" alt="item1"/>
-                <span class="item-name">Sony DSC-RX100M III</span>
-                <span class="item-price">$849.99</span>
-                <span class="item-quantity">Quantity: 01</span>
-            </li>
-
-            <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item2.jpg" alt="item1"/>
-                <span class="item-name">KS Automatic Mechanic...</span>
-                <span class="item-price">$1,249.99</span>
-                <span class="item-quantity">Quantity: 01</span>
-            </li>
-
-            <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item3.jpg" alt="item1"/>
-                <span class="item-name">Kindle, 6" Glare-Free To...</span>
-                <span class="item-price">$129.99</span>
-                <span class="item-quantity">Quantity: 01</span>
-            </li>
-        </ul>
-
-        <a href="#" class="button">Checkout</a>
-    </div> <!--end shopping-cart -->
-</div> <!--end container -->
 
 @yield('content')
 
@@ -106,7 +90,7 @@
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.bundle.min.js"></script>
 <script src="../js/shoping-cart.js"></script>
-
+@yield('script')
 </body>
 
 </html>

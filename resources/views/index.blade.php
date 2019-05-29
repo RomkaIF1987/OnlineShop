@@ -1,6 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <div class="shopping-cart" id="shopcart">
+            <ul class="shopping-cart-items">
+                @foreach($carts as $cart)
+                    <li class="clearfix shopping-cart-itemsli">
+                        <img class="shopping-cart-itemsimg" width="40%"
+                             src="{{asset("storage/")}}/{{$cart['item']['image']}}" alt="item1"/>
+                        <span class="item-name">{{$cart['item']['name']}}</span>
+                        <span class="item-price">Price: ${{$cart['price']}}</span>
+                        <span class="item-quantity">Quantity: {{$cart['qty']}}</span><br>
+                    </li>
+                @endforeach
+            </ul>
+            <div class="shopping-cart-header">
+                <div class="shopping-cart-total">
+                    <span class="lighter-text">Total:</span>
+                    <span class="main-color-text">${{Session::has('cart') ? Session::get('cart')->totalPrice : ''}}</span>
+                </div>
+            </div> <!--end shopping-cart-header -->
+            <a href="{{route('cartShow')}}" class="button">Checkout</a>
+        </div> <!--end shopping-cart -->
+    </div> <!--end container -->
+
     <!-- Page Content -->
     <div class="container">
 
@@ -51,7 +74,14 @@
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                                    <button type="button" class="btn btn-primary float-right">Buy</button>
+                                    @auth()
+                                        <a href="{{route('addToCart', ['id' => $product->id])}}" type="button"
+                                           class="btn btn-primary float-right">Buy</a>
+                                    @endauth
+                                    @guest()
+                                        <a href="{{ route('login') }}" type="button" class="btn
+                                            btn-secondary float-right">Buy</a>
+                                    @endguest
                                 </div>
                             </div>
                         </div>

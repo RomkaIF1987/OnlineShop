@@ -6,3 +6,40 @@
 body {
     padding-top: 56px;
 }
+
+.item-name {
+    display: block;
+    padding-top: 10px;
+    font-size: 16px;
+}
+
+.item-price {
+    color: skyblue;
+    margin-right: 8px;
+}
+
+.item-quantity {
+    color: lightslategrey;
+}
+
+
+.shopping-cart-items {
+
+    padding-top: 20px;
+}
+
+.shopping-cart-itemsli {
+    margin-bottom: 18px;
+}
+
+.shopping-cart-itemsimg {
+    float: left;
+    margin-right: 12px;
+}
+
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    display: block;
+    width: 100% \9;
+    max-width: 100%;
+    height: auto;
+}
