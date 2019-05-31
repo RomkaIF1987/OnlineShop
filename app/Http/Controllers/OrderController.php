@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Classes\OrderItems;
 use App\Classes\Order;
 use App\Http\Requests\OrderTableRequest;
-use App\Models\Blog;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use DB;
 
 class OrderController extends Controller
 {
@@ -15,6 +16,7 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param OrderTableRequest $request
+     * @param User $user
      * @return void
      */
     public function store(OrderTableRequest $request)
@@ -22,6 +24,7 @@ class OrderController extends Controller
 
         $params = $request->validated();
         $orderItemsParams['itemOrders'] = $params['itemOrders'];
+        $params['sum'] += $params['delivery'];
         unset($params['itemOrders']);
 
         $order = Order::create($params);
@@ -33,6 +36,9 @@ class OrderController extends Controller
             $orderItemsParam['order_id'] = $order->id;
             OrderItems::create($orderItemsParam);
         }
+
+        DB::table('users')->where('id', $params['user_id'])->update(['money' => Auth::user()->money - $params['sum']]);
+
         Session::forget('cart');
 
         return redirect()->route('cartConfirm', ['order_id' => $order->id]);

@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->integer('user_id')->nullable();
             $table->string('user_name');
             $table->float('sum');
+            $table->integer('delivery');
             $table->timestamps();
         });
     }

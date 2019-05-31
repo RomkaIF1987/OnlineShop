@@ -1,30 +1,48 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row ml-5">
-        <h2>Your order is successful accepted</h2>
-    </div>
-    <div class="table">
-        <table style="width: 60%;">
+    <div class="container">
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
             <tr>
-                <th>Items</th>
-                <th>Product name</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th style="width:22%">Product</th>
+                <th style="width:15%">Price</th>
+                <th style="width:8%">Quantity</th>
+                <th style="width:15%" class="text-center">Subtotal</th>
             </tr>
-
+            </thead>
+            <tbody>
             @foreach($orders->orderItems as $orderItem)
                 <tr>
-                    <td>{{$i++}}</td>
-                    <td>{{$orderItem->menuItems->name}}</td>
-                    <td>{{$orderItem->quantity}}</td>
-                    <td>${{$orderItem->sum}}</td>
+                    <td data-th="Product">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h4 class="nomargin">{{$orderItem->menuItems->name}}</h4>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Price">${{$orderItem->sum}}</td>
+                    <td data-th="Quantity">{{$orderItem->quantity}}</td>
+                    <td data-th="Subtotal" class="text-center">${{$orderItem->sum}}</td>
                 </tr>
             @endforeach
+            </tbody>
+            <tfoot>
+            <tr class="visible-xs">
+                <td></td>
+                <td></td>
+                <td class="text-right"><strong>Total price:
+                        ${{$orders->sum}}</strong></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><a href="{{route('home.page')}}" class="btn btn-warning"><i class="fa fa-angle-left"></i>
+                        Continue Shopping</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tfoot>
         </table>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <strong><h2> Total: {{$orders->sum}}$</h2></strong>
-        </div>
     </div>
 @endsection

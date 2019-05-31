@@ -27,7 +27,8 @@ class OrderTableRequest extends FormRequest
             'user_id' => 'required',
             'user_name' => 'required',
             'sum' => 'required',
-            'itemOrders' => 'required'
+            'itemOrders' => 'required',
+            'delivery' => 'required'
         ];
     }
 }

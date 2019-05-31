@@ -16,7 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="../css/shop-homepage.css" rel="stylesheet">
     <link href="../css/shoping-cart.scss" rel="stylesheet">
-
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -66,6 +66,9 @@
                     </li>
                 @endguest
                 @auth
+                    <li class="nav-item">
+                        <div class="nav-link"> Account: {{Auth::user() ? Auth::user()->money : ''}}$</div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="cart"> Cart <span
                                     class="badge">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span></a>
